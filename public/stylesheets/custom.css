@@ -1,0 +1,26 @@
+.footer {
+	text-align: center;
+	padding: 20px 0;
+	margin-top: 30px;
+	background-color: #f5f5f5;
+	border-top: 1px solid #e5e5e5;
+}
+
+.footer p {
+	color: #777;
+}
+
+.recently {
+	height: 300px;
+	overflow: scroll;
+}
+
+.tags {
+	height: 300px;
+	overflow: scroll;
+}
+
+.sprint {
+	height: 300px;
+	overflow: scroll;
+}
