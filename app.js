@@ -11,6 +11,9 @@ app.use(express.static(__dirname + '/public'));  //where static assets like styl
 app.get('/', routes.index);
 app.get('/api/:call', routes.api);
 app.get('/tests', routes.tests);
+app.get('/configure', routes.configure);
+app.get('/updatedb', routes.updatedb);
+
 
 app.listen(3002);
 
