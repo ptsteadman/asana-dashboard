@@ -4,8 +4,9 @@
 	"dependencies": {
 		"express":"3.x",
 		"ejs": "*",
-		"asana-api":"*",
-		"qunitjs":"*"
+		"asana-api": "*",
+		"qunitjs": "*",
+		"mongodb": "*"
 	}
 }
 
