@@ -1,0 +1,134 @@
+var asana = require('asana-api');
+var mongo = require('mongodb');
+var AsanaProvider = require('./asanaprovider').AsanaProvider;
+var utils = require('./utilities');
+
+var ghost = new AsanaProvider('localhost', 27017);
+var client = asana.createClient({
+		apiKey: '1JeVS7kT.6gvqISqxpHUbzFUsLsaIHpa'
+});
+
+//CREATE
+
+exports.updatedb = function(req, res){
+	client.users.list(function(error, users){
+		ghost.save(users, 'userList');
+	})
+
+
+	client.projects.list(function(error, projects){
+		ghost.save(projects, 'projectList');
+		ghost.remove('taskList');
+		projects.forEach(function(project, index){
+			client.projects.verboseTasks(project.id,function(error, tasks){
+				ghost.saveMultiple(tasks, 'taskList',function(message){
+					console.log(project.name + message)
+					if(index == projects.length - 1){
+						res.send('UPDATING DATABASE DONE!');
+						setTimeout(utils.augmentTasks(tasks),3000);
+					}
+				});
+			});
+		});
+	});
+
+	client.tags.list(function(error, tags){
+		var saved = 0;
+		for(var i = 0; i < tags.length; i++){
+			var tagId = tags[i].id;
+			(function(n, id){
+				client.tags.tasks(id, function(error, tasks){
+					tags[n].tasks = tasks;
+					saved++;
+					if (saved >= tags.length - 1){
+						ghost.save(tags, 'tagList');
+						console.log("SAVED TAGS!")
+					} 
+				});
+			})(i, tagId);
+		}
+	});
+}
+
+//RETREIVE
+
+exports.tasklist = function(req, res){
+	ghost.findAllIn('taskList', function(err, tasks){
+		res.json(tasks);
+	});
+}
+
+exports.taskListLength = function(req, res){
+	ghost.findAllIn('taskList', function(err, tasks){
+		res.json(tasks.length);
+	});
+
+}
+
+exports.userlist = function(req, res){
+	ghost.findAllIn('userList', function(err, tasks){
+		res.json(tasks);
+	});
+}
+
+exports.taglist = function(req, res){
+	ghost.findAllIn('tagList', function(error, tags){
+		res.json(tags);
+	});
+}
+
+exports.completed = function(req, res){
+
+	ghost.findAllIn('taskList', function(err, tasks){
+		var completedTasks = [];
+			ghost.findAllIn('userList', function(err, users){
+				for(var i = 0; i < tasks.length; i++){
+					(function(n){
+						if (utils.withinWeek(tasks[n].completed_at)) {
+							if (tasks[n].assignee) tasks[n].assignee.id = "" + utils.getUser(users, tasks[n].assignee.id);
+								completedTasks.push(tasks[n]);
+						}
+					})(i)
+				}
+				res.json(completedTasks);
+			});
+	});
+}
+
+
+exports.currentSprint = function(req, res){
+			ghost.findById(4902526581434,'taskList', function(error, tasks){
+				ghost.findAllIn('userList', function(err, users){
+				taskArray = [];
+				var sprintStart = false;
+				var sprintEnd = false;
+				if (error){
+					return res.json('');
+				}
+				for(var i=0;i<tasks.length;i++){
+					if(tasks[i].name == "CURRENT SPRINT:"){
+						sprintStart = true;
+					} else {
+					if(sprintStart){
+						if(tasks[i].name == "FOR TRIAGE:"){
+							sprintEnd = true;
+						} else if (!sprintEnd) {
+							if (tasks[i].assignee){
+										tasks[i].assignee.id = "" + utils.getUser(users, tasks[i].assignee.id);
+										taskArray.push(tasks[i]);
+									} else {
+										taskArray.push(tasks[i]);
+									}
+						}
+					}
+				}
+				}
+				res.json(taskArray);
+			});
+			});
+}
+
+
+
+
+

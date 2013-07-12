@@ -1,26 +1,78 @@
 .footer {
 	text-align: center;
 	padding: 20px 0;
-	margin-top: 30px;
 	background-color: #f5f5f5;
 	border-top: 1px solid #e5e5e5;
+    width: 100%;
+    z-index: 100;
+    height: 40px;
 }
 
-.footer p {
-	color: #777;
+
+.scrollbox {
+    position: relative;
+    z-index: 1;
+
+    overflow: auto;
+    max-height: 400px;
+
+    background: #FFF no-repeat;
+    background-image:
+        -webkit-radial-gradient(50% 0, farthest-side, rgba(0,0,0,0.2), rgba(0,0,0,0)),
+        -webkit-radial-gradient(50% 100%,farthest-side, rgba(0,0,0,0.2), rgba(0,0,0,0));
+    background-image:
+        -moz-radial-gradient(50% 0, farthest-side, rgba(0,0,0,0.2), rgba(0,0,0,0)),
+        -moz-radial-gradient(50% 100%,farthest-side, rgba(0,0,0,0.2), rgba(0,0,0,0));
+    background-image:
+        radial-gradient(farthest-side at 50% 0, rgba(0,0,0,0.1), rgba(0,0,0,0)),
+        radial-gradient(farthest-side at 50% 100%, rgba(0,0,0,0.1), rgba(0,0,0,0));
+    background-position: 0 0, 0 100%;
+    background-size: 100% 14px;
+    }
+
+
+.scrollbox:before,
+.scrollbox:after {
+    content: "";
+    position: relative;
+    z-index: -1;
+
+    display: block;
+
+    height: 30px;
+    margin: 0 0 -30px;
+    background: -webkit-linear-gradient(top,#FFF,#FFF 30%,rgba(255,255,255,0));
+    background:    -moz-linear-gradient(top,#FFF,#FFF 30%,rgba(255,255,255,0));
+    background:   linear-gradient(to bottom,#FFF,#FFF 30%,rgba(255,255,255,0));
+    }
+
+.scrollbox:after {
+    margin: -30px 0 0;
+    background: -webkit-linear-gradient(top,rgba(255,255,255,0),#FFF 70%,#FFF);
+    background:    -moz-linear-gradient(top,rgba(255,255,255,0),#FFF 70%,#FFF);
+    background:   linear-gradient(to bottom,rgba(255,255,255,0),#FFF 70%,#FFF);
+    }
+
+
+#inline-right{
+    margin-top: -30px;
+    margin-left: 600px;
 }
 
-.recently {
-	height: 300px;
-	overflow: scroll;
+section{
+    margin-top: -10px;
+    margin-left: 50px;
+    margin-right: 20px;
+    min-height: 520px;
 }
 
-.tags {
-	height: 300px;
-	overflow: scroll;
+.container{
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
-.sprint {
-	height: 300px;
-	overflow: scroll;
+.lead {
+    margin-bottom: 10px;
 }
+
+
