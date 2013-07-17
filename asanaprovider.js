@@ -44,9 +44,10 @@ AsanaProvider.prototype.saveMultiple = function(datas, collectionName, callback)
 	this.getCollection(collectionName, function(error, theCollection){
 		if (error) callback(error);
 		else {
+			if (!datas) return callback();
 			if(typeof(datas.length)=="undefined"){ datas = [datas]}
 			theCollection.insert(datas);
-			callback(' saving tasks done');
+			callback();
 		}
 	});
 }

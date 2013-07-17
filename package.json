@@ -6,7 +6,8 @@
 		"ejs": "*",
 		"asana-api": "*",
 		"qunitjs": "*",
-		"mongodb": "*"
+		"mongodb": "*",
+		"async": "*"
 	}
 }
 

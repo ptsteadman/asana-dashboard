@@ -1,4 +1,5 @@
 var api = require('./api');
+var utils = require('./utilities')
 
 exports.index = function(req,res){
 	res.render('index');
@@ -30,6 +31,11 @@ exports.api = function(req,res){
 			break;
 		case "taskListLength":
 			api.taskListLength(req, res);
+			break;
+		case "augment":
+			utils.augmentTasks(function(){
+				res.send("Augmented!");
+			});
 			break;
 	}
 }

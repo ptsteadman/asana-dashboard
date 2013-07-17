@@ -70,7 +70,7 @@ var site = {
 		data.forEach(function(task, index){
 			var trClass = task.completed_at ? "success" : "";
 			var icon = task.completed_at ? "<i class='icon-ok'></i> " : "";
-			var assignee = task.assignee ? task.assignee.id : "Not assigned.";
+			var assignee = task.assignee ? task.assignee.name : "Not assigned.";
 			var completed = task.completed_at ? task.completed_at.substring(0,10) : "Not completed."
 			taskArray.push("<tr class='" + trClass + "'><td><em>" + icon + task.name + "</em></td><td>" + assignee + "</td><td>" + completed + "</td></tr>");
 		});
@@ -82,13 +82,13 @@ var site = {
 
 	fillCompletedTable: function(data){
 		var taskArray = [];
-		taskArray.push("<thead><tr><th>Task Name</th><th>Task Owner</th><th>Completed?</th></tr></thead><tbody>");
+		taskArray.push("<thead><tr><th>Task Name</th><th>Product</th><th>Task Owner</th><th>Completed?</th></tr></thead><tbody>");
 		data.forEach(function(task, index){
 			var trClass = task.completed_at ? "success" : "";
 			var icon = task.completed_at ? "<i class='icon-ok'></i> " : "";
-			var assignee = task.assignee ? task.assignee.id : "Not assigned.";
+			var assignee = task.assignee ? task.assignee.name : "Not assigned.";
 			var completed = task.completed_at ? task.completed_at.substring(0,10) : "Not completed."
-			taskArray.push("<tr><td><em>" + icon + task.name + "</em></td><td>" + assignee + "</td><td>" + completed + "</td></tr>");
+			taskArray.push("<tr><td><em>" + icon + task.name + "</em></td><td>" + task.workspace.name + "</td><td>" + assignee + "</td><td>" + completed + "</td></tr>");
 		});
 		taskArray.push("</tbody>");
 		console.log(taskArray.join(""));
