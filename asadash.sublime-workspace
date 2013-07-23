@@ -4,8 +4,24 @@
 		"selected_items":
 		[
 			[
+				"workspaces",
+				"workspaces"
+			],
+			[
+				"completed",
+				"completedTasks"
+			],
+			[
+				"padding",
+				"padding-bottom"
+			],
+			[
 				"complete",
-				"completed_at"
+				"completedTasks"
+			],
+			[
+				"i",
+				"i"
 			],
 			[
 				"Asana",
@@ -48,26 +64,10 @@
 	"buffers":
 	[
 		{
-			"file": "app.js",
-			"settings":
-			{
-				"buffer_size": 662,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/site.js",
-			"settings":
-			{
-				"buffer_size": 3773,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "asanaprovider.js",
 			"settings":
 			{
-				"buffer_size": 2162,
+				"buffer_size": 2297,
 				"line_ending": "Unix",
 				"name": "var Db = require('mongodb').Db;"
 			}
@@ -76,7 +76,7 @@
 			"file": "routes.js",
 			"settings":
 			{
-				"buffer_size": 3228,
+				"buffer_size": 884,
 				"line_ending": "Unix"
 			}
 		},
@@ -84,7 +84,7 @@
 			"file": "views/index.ejs",
 			"settings":
 			{
-				"buffer_size": 4712,
+				"buffer_size": 5676,
 				"line_ending": "Unix"
 			}
 		},
@@ -92,7 +92,40 @@
 			"file": "public/stylesheets/custom.css",
 			"settings":
 			{
-				"buffer_size": 1637,
+				"buffer_size": 1883,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/site.js",
+			"settings":
+			{
+				"buffer_size": 4308,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "package.json",
+			"settings":
+			{
+				"buffer_size": 170,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "api",
+			"settings":
+			{
+				"buffer_size": 4133,
+				"line_ending": "Unix",
+				"name": "exports.tasklist = function(){"
+			}
+		},
+		{
+			"file": "utilities.js",
+			"settings":
+			{
+				"buffer_size": 1899,
 				"line_ending": "Unix"
 			}
 		}
@@ -138,21 +171,25 @@
 	"file_history":
 	[
 		"/Users/psteadman/projects/sublime/asadash/node_modules/asana-api/lib/asana-api/projects.js",
+		"/Users/psteadman/projects/sublime/asadash/app.js",
+		"/Users/psteadman/projects/sublime/asadash/views/configure.ejs",
+		"/Users/psteadman/projects/sublime/asadash/public/tests.js",
+		"/Users/psteadman/projects/sublime/asadash/utilities",
+		"/Users/psteadman/projects/sublime/asadash/public/site.js",
+		"/Users/psteadman/projects/sublime/asadash/public/jquery.tablesorter.min.js",
+		"/Users/psteadman/projects/sublime/asadash/public/qunit.js",
 		"/Users/psteadman/projects/sublime/asadash/node_modules/asana-api/lib/asana-api/client.js",
 		"/Users/psteadman/projects/sublime/asadash/public/stylesheets/custom.css",
 		"/Users/psteadman/projects/sublime/asadash/node_modules/asana-api/lib/asana-api/tasks.js",
 		"/Users/psteadman/projects/sublime/asadash/views/index.ejs",
 		"/Users/psteadman/projects/sublime/asadash/package.json",
-		"/Users/psteadman/projects/sublime/asadash/views/configure.ejs",
 		"/Users/psteadman/Library/Application Support/Sublime Text 2/Packages/User/SimpleSync.sublime-settings",
 		"/Users/psteadman/projects/sublime/asadash/routes.js",
-		"/Users/psteadman/projects/sublime/asadash/public/tests.js",
 		"/Users/psteadman/projects/sublime/asadash/views/tests.ejs",
 		"/Users/psteadman/projects/sublime/asadash/views/tests.ejs.html",
 		"/Users/psteadman/projects/sublime/asadash/public/p2.sublime-workspace",
 		"/Users/psteadman/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
 		"/Users/psteadman/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
-		"/Users/psteadman/projects/sublime/asadash/public/site.js",
 		"/Users/psteadman/projects/sublime/tomcat/logs/catalina.2013-06-27.log",
 		"/Users/psteadman/projects/sublime/express/src/main/webapp/jsp/includes/search.jsp",
 		"/Users/psteadman/projects/sublime/express/target/hotel-retail-phd/content/css/style.css",
@@ -197,6 +234,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"i",
+			"console",
+			"projects",
+			"row",
 			"tagArray",
 			"taskArray",
 			"td",
@@ -256,28 +297,28 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 5,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app.js",
+					"file": "asanaprovider.js",
 					"settings":
 					{
-						"buffer_size": 662,
+						"buffer_size": 2297,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								601,
-								601
+								1585,
+								1585
 							]
 						],
 						"settings":
 						{
-							"spell_check": false,
+							"auto_name": "var Db = require('mongodb').Db;",
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
 						"translation.x": 0.0,
@@ -288,71 +329,18 @@
 				},
 				{
 					"buffer": 1,
-					"file": "public/site.js",
-					"settings":
-					{
-						"buffer_size": 3773,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								429,
-								429
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1148.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "asanaprovider.js",
-					"settings":
-					{
-						"buffer_size": 2162,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1892,
-								1892
-							]
-						],
-						"settings":
-						{
-							"auto_name": "var Db = require('mongodb').Db;",
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 617.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
 					"file": "routes.js",
 					"settings":
 					{
-						"buffer_size": 3228,
+						"buffer_size": 884,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1590,
-								1590
+								711,
+								711
 							]
 						],
 						"settings":
@@ -361,25 +349,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1035.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 2,
 					"file": "views/index.ejs",
 					"settings":
 					{
-						"buffer_size": 4712,
+						"buffer_size": 5676,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3414,
-								3414
+								3573,
+								3573
 							]
 						],
 						"settings":
@@ -389,34 +377,150 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1134.0,
+						"translation.y": 20.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 3,
 					"file": "public/stylesheets/custom.css",
 					"settings":
 					{
-						"buffer_size": 1637,
+						"buffer_size": 1883,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								251,
-								251
+								261,
+								261
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "public/site.js",
+					"settings":
+					{
+						"buffer_size": 4308,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3296,
+								3296
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 149.0,
+						"translation.y": 1287.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "package.json",
+					"settings":
+					{
+						"buffer_size": 170,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								169,
+								169
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 6,
+					"file": "api",
+					"settings":
+					{
+						"buffer_size": 4133,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								291,
+								323
+							]
+						],
+						"settings":
+						{
+							"auto_name": "exports.tasklist = function(){",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2480.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "utilities.js",
+					"settings":
+					{
+						"buffer_size": 1899,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1732,
+								1732
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 616.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -441,6 +545,12 @@
 				0,
 				1,
 				1
+			],
+			[
+				0,
+				1,
+				1,
+				2
 			]
 		],
 		"cols":
@@ -451,6 +561,7 @@
 		"rows":
 		[
 			0.0,
+			0.5,
 			1.0
 		]
 	},
