@@ -2,7 +2,7 @@ var api = require('./api');
 var utils = require('./utilities')
 
 exports.index = function(req,res){
-	api.updatedb(req, res);
+	res.render('index');
 }
 
 exports.updatedb = function(req, res){
