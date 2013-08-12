@@ -12,6 +12,7 @@ var client = asana.createClient({
 //CREATE
 
 exports.updatedb = function(req, res){
+	console.log('updating')
 	var start = new Date();
 	async.series([
 		function(callback){
