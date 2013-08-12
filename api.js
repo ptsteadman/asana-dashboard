@@ -21,6 +21,7 @@ exports.updatedb = function(req, res){
 				//save USERS to ghost
 				function(callback){
 					client.users.list(function(error, users){
+						if (error) console.log(error)
 						if (error) return callback(error);
 						ghost.remove('userList');
 						ghost.saveMultiple(users, 'userList', function(data){
