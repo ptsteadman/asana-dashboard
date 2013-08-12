@@ -28,6 +28,15 @@ exports.getWorkspace = function(workspaces, id){
 		return null;
 }
 
+exports.getProject = function(projects, id){
+		for(var i = 0; i< projects.length; i++){
+			if (projects[i].id == id){
+				 return projects[i].name;
+			}
+		}
+		return null;
+}
+
 exports.withinWeek = function(date){
 	if (!date) return false;
 	var taskDate = new Date(date);
@@ -44,6 +53,7 @@ exports.augmentTasks = function(callback){
 						for(var i = 0; i < tasks.length; i++){
 							if (tasks[i].assignee) tasks[i].assignee.name = utils.getUser(users, tasks[i].assignee.id);
 							if (tasks[i].workspace) tasks[i].workspace.name = utils.getWorkspace(workspaces, tasks[i].workspace.id);
+							if (tasks[i].projects[0]) tasks[i].projects[0].name = utils.getProject(projects, tasks[i].projects[0].id);
 						}
 						ghost.save(tasks, 'taskList');
 						console.log('Tasks Augmented.');

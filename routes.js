@@ -37,6 +37,19 @@ exports.api = function(req,res){
 				res.send("Augmented!");
 			});
 			break;
+		case "trackedtags":
+			api.getTrackedTags(req, res);
+			break;
+	}
+}
+
+exports.postapi = function(req, res){
+	var call = req.params.call;
+
+	switch (call){
+		case "trackedtags":
+			api.postTrackedTags(req, res);
+			break;
 	}
 }
 

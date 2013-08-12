@@ -8,99 +8,107 @@
 
     <!-- Le styles -->
         <!--<script src="http://dabblet.com/code/prefixfree.min.js"></script>-->
-    <link href="stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="stylesheets/font-awesome.css" rel="stylesheet">
     <link href="stylesheets/custom.css" rel="stylesheet">
-    <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-    </style>
-    <link href="/assets/css/bootstrap-responsive.css" rel="stylesheet">
-
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
 
     <!-- Fav and touch icons -->
     <link rel="shortcut icon" href="favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="/assets/ico/apple-touch-icon-57-precomposed.png">
   </head>
 
   <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="/">Asana Dashboard</i></a>
-          <div class="nav-collapse collapse" style="float:right; margin-right: 60px;">
-            <ul class="nav">
-              <li><a href="configure">Configure</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
+      <a class="navbar-brand" href="/">Asana Dashboard</i></a>
+        <ul class="nav navbar-nav" style="float:right; margin-right: 60px;">
+           <li><a href="configure">Configure</a></li>
+        </ul>
     </div>
 
+
     <div class="container"> 
-      <div class="row-fluid">
-        <div class="span2">
+      <div class="row">
+        <div class="col-lg-2">
           <nav id="sidebar-nav">
             <ul class="nav nav-pills nav-stacked affix">
-              <li><a href="#home"><i class="icon-home"></i> Home</a></li>
+              <li><a href="#"><i class="icon-home"></i> Home</a></li>
               <li><a href="#recentlyCompleted"><i class="icon-ok"></i> Recently Completed</a></li>
               <li><a href="#tags"><i class="icon-tags"></i> Tags</a></li>
-              <li><a href="#currentSprint"><i class="icon-fast-forward"></i> Current Sprints</a></li>
-              <li><a href="#backlog"><i class="icon-folder-open"></i> Backlog</a></li>
+              <li><a href="#search"><i class="icon-search"></i> Search</a></li>
             </ul>
           </nav>
         </div>
-        <div class="span9 offset1">
-          <section id="home">
-             <h3>At a glance...</h3>
-             <div class="scrollbox">
-              <p class="lead">Tasks Completed This Week: <strong><span class="text-success" id="completedNo"></span></strong></p>
-              <p class="lead">Tasks Added This Week: <strong><span class="text-success" id="addedNo">23</span></strong></p>
-              <p class="lead">Total Tasks: <strong><span class="text-success" id="totalNo"></span></strong></p>
-              </div>
-          </section>
-          <section id="nextDeploy">
-             <h4>Next Deploy</h4>
-             <div class="scrollbox">
-              <p>Implement me!</p>
-              </div>
-          </section>
-          <section id="recentlyCompleted">
-             <h4>Recently Completed Tasks</h4>
-             <div class="scrollbox">
-             <table id="completedTasks" class="table table-condensed table-hover"></table>
-              </div>
-          </section>
-          <section id="currentSprint">
-            <h4>Current Sprint Tasks</h4>
-            <form class="form-inline" id="inline-right">
-              <input id="hideCompleted" type="checkbox" checked> Hide Completed Tasks</input>
-            </form>
-            <div class="scrollbox">
-            <table id="sprintTasks" class="table table-condensed table-hover"></table>
+        <div class="col-lg-8">
+          <form id="tag-tracker-form" class="form-horizontal">
+            <div id="tag-tracker-well" class="well">
+              <div id="tag-container"></div>
+                <div class="input-group">
+                <input type="text" id="tag-tracker-input" class="form-control" placeholder="Start typing the name of a tag...">
+                <span class="input-group-btn">
+                  <button class="btn btn-primary" type="button">Start Tracking Tag</button>
+                </span>  
+                </div>              
             </div>
-          </section>
-          <section id="tags">
-             <h4>Tags</h4>
-              <div class="scrollbox">
-                <div class="accordion" id="accordionTags"></div>
+          </form>
+
+          <form id="task-search-form" class="form-inline">
+              <div class="col-lg-12">
+                <input type="text" class="form-control" placeholder="Search by anything...">
               </div>
-          </section>
+          </form>
+              
+          <div id="main-content"></div>
+        </div>
+        <div class="col-lg-2">
+            <form id="task-filter-form" class="form-horizontal">
+              <div class="control-group">
+                  <label class="control-label" for="completed-filter">Filter By Completed</label>
+                  <div class="controls">
+                    <select id="completed-filter" class="form-control">
+                      <option>Show All</option>
+                      <option>Only Show Completed</option>
+                      <option>Don't Show Completed</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="completed-filter">Filter By Assigned</label>
+                  <div class="controls">
+                    <select id="assigned-filter" class="form-control">
+                      <option>Show All</option>
+                      <option>Only Show Assigned Tasks</option>
+                      <option>Don't Show Assigned Tasks</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="completed-filter">Filter By Workspace</label>
+                  <div class="controls" id="workspace-filter">
+                  
+                  </div>
+                </div>
+              </form>
+          </div>         
         </div>
       </div>
     </div> <!-- /container -->
+
+    <!--TEMPLATES-->
+    
+
+    <div id="task-template" type="text/template">
+      <div class="task-header">
+        <a class="asana-link" href="https://app.asana.com/0/{{ href }}">{{ name }}</a>
+        <h5>{{ workspace }}: <small> {{ project }}</small></h5>
+      </div>
+      <div class="task-status"> 
+        <span class="badge badge-info">{{ assignee != 'Not assigned.' ? 'Assigned to: ' + assignee : ''}}</span>
+        <span class="badge badge-success">{{ completed_at != 'Not completed.' ? 'Completed: ' + completed_at.substring(0,10) : '' }}</span>
+      </div>
+    </div>
+    <div id="tag-template" type="text/template">
+      <p>{{ name }}</p>
+      <p>{{ tasks }}</p>
+    </div>
 
 <!--
     <div class="footer">
@@ -114,20 +122,12 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
 
-    <script src="/assets/js/jquery.js"></script>
-    <script src="jquery.tablesorter.min.js"></script>
-    <script src="site.js"></script>
-    <script src="/assets/js/bootstrap-transition.js"></script>
-    <script src="/assets/js/bootstrap-alert.js"></script>
-    <script src="/assets/js/bootstrap-modal.js"></script>
-    <script src="/assets/js/bootstrap-dropdown.js"></script>
-    <script src="/assets/js/bootstrap-scrollspy.js"></script>
-    <script src="/assets/js/bootstrap-tab.js"></script>
-    <script src="/assets/js/bootstrap-tooltip.js"></script>
-    <script src="/assets/js/bootstrap-popover.js"></script>
-    <script src="/assets/js/bootstrap-button.js"></script>
-    <script src="/assets/js/bootstrap-collapse.js"></script>
-    <script src="/assets/js/bootstrap-carousel.js"></script>
-    <script src="/assets/js/bootstrap-typeahead.js"></script>
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/typeahead.min.js"></script>
+    <script src="js/underscore.js"></script>
+    <script src="js/backbone.js"></script>
+    <script src="/site3.js"></script>
+
   </body>
 </html>
