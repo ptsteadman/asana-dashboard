@@ -12,6 +12,7 @@ var client = asana.createClient({
 //CREATE
 
 exports.updatedb = function(req, res){
+	console.log(client);
 	console.log('updating');
 	var start = new Date();
 	async.series([
@@ -89,6 +90,7 @@ exports.updatedb = function(req, res){
 		}
 		], function(err){
 			console.log("DONE!!!!!");
+			console.log(err)
 			var done = new Date();
 			res.send("Asana ghost DB updated in " + ((done.getTime() - start.getTime())/1000) + " secs.");
 	})
