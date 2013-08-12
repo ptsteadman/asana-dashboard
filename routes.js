@@ -6,6 +6,7 @@ exports.index = function(req,res){
 }
 
 exports.updatedb = function(req, res){
+	console.log('updaging route')
 	api.updatedb(req, res);
 }
 
