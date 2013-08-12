@@ -1,7 +1,7 @@
 var asana = require('asana-api');
 var mongo = require('mongodb');
-var AsanaProvider = require('./asanaprovider.js').AsanaProvider;
-var utils = require('./utilities.js');
+var AsanaProvider = require('./asanaprovider').AsanaProvider;
+var utils = require('./utilities');
 var async = require('async');
 
 
