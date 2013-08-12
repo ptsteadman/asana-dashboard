@@ -1,5 +1,5 @@
 var api = require('./api.js');
-var utils = require('./utilities')
+var utils = require('./utilities.js')
 
 exports.index = function(req,res){
 	res.render('index');

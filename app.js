@@ -1,5 +1,5 @@
 var express = require('express');
-var routes = require('./routes');
+var routes = require('./routes.js');
 
 var app = express();
 app.set('views', __dirname + '/views');  //set the directory for ejs view files
