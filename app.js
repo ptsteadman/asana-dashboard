@@ -1,5 +1,4 @@
 var express = require('express');
-var asana = require('asana-api');
 var routes = require('./routes');
 
 var app = express();
