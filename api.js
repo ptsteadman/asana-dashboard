@@ -7,7 +7,8 @@ var async = require('async');
 
 var ghost = new AsanaProvider('localhost', 27017);
 var client = asana.createClient({
-		apiKey: '1Pjl79Np.wMQCNmrfCJSud3WBef3w87s'
+		apiKey: '1Pjl79Np.wMQCNmrfCJSud3WBef3w87s',
+		proxy: 'http://nw-iwsva.corp.pcln.com:8080'
 });
 
 //CREATE
