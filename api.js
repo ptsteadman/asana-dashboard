@@ -11,6 +11,11 @@ var client = asana.createClient({
 
 //CREATE
 
+exports.testIt = function(req, res){
+	console.log('test');
+	res.send('test');
+}
+
 exports.updatedb = function(req, res){
 	console.log(client);
 	console.log('updating');

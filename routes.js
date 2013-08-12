@@ -2,8 +2,7 @@ var api = require('./api');
 var utils = require('./utilities')
 
 exports.index = function(req,res){
-	api.updatedb(req, res);
-	//res.render('index');
+	res.render('index');
 }
 
 exports.updatedb = function(req, res){
@@ -55,7 +54,7 @@ exports.postapi = function(req, res){
 }
 
 exports.tests = function(req,res){
-	res.render('tests');
+	api.testIt(req, res);
 }
 
 exports.configure = function(req,res){
