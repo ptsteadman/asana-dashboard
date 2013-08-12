@@ -7,7 +7,6 @@ var ObjectID = require('mongodb').ObjectID;
 AsanaProvider = function(host, port) {
 	this.db = new Db('ghost', new Server(host, port), {safe: false}, {auto_reconnect: true}, {});
 	this.db.open(function(err){
-		console.log('hi')
 		console.log(err)
 	});
 }

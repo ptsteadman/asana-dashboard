@@ -28,7 +28,7 @@ exports.updatedb = function(req, res){
 				//save USERS to ghost
 				function(callback){
 					client.users.list(function(error, users){
-						if (error) console.log(error)
+						if (error) console.log(error + "userlist")
 						if (error) return callback(error);
 						ghost.remove('userList');
 						ghost.saveMultiple(users, 'userList', function(data){
@@ -82,7 +82,7 @@ exports.updatedb = function(req, res){
 						ghost.saveMultiple(tasks, 'taskList', callback);
 					});
 				}, function(error){
-						if (error) console.log(error);
+						if (error) console.log(error+ "findingTasksError");
 						console.log('All bare tasks saved.')
 						callback();
 					});
@@ -96,7 +96,7 @@ exports.updatedb = function(req, res){
 		}
 		], function(err){
 			console.log("DONE!!!!!");
-			console.log(err)
+			console.log(err + "lastError")
 			var done = new Date();
 			res.send("Asana ghost DB updated in " + ((done.getTime() - start.getTime())/1000) + " secs.");
 	})
