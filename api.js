@@ -4,11 +4,12 @@ var AsanaProvider = require('./asanaprovider').AsanaProvider;
 var utils = require('./utilities');
 var async = require('async');
 
+/*
 var ghost = new AsanaProvider('localhost', 27017);
 var client = asana.createClient({
 		apiKey: '1Pjl79Np.wMQCNmrfCJSud3WBef3w87s'
 });
-
+*/
 //CREATE
 
 exports.testIt = function(req, res){
