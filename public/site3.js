@@ -4,7 +4,7 @@
   // Sets underscore template tags to {{}} in order not to cause problems 
   // with EJS (ejs is not actually used)  
 
-  _.templateSettings = { interpolate : /\{\{(.+?)\}\}/g };
+  //_.templateSettings = { interpolate : /\{\{(.+?)\}\}/g };
 
   // ROUTER 
 
@@ -26,7 +26,7 @@ var TaskRouter = Backbone.Router.extend({
       },
 
       tags: function(){
-          Presenter.showViews([tagListView, tagListView.tagTrackerForm]);
+          Presenter.showViews([tagListView, tagListView.tagSearchForm]);
       },
 
       search: function(){
@@ -144,52 +144,33 @@ var TaskRouter = Backbone.Router.extend({
     }
   });
 
-  var TagTrackerForm = Backbone.View.extend({
-    el: "#tag-tracker-form",
+  var TagSearchForm = Backbone.View.extend({
+    el: "#tag-search-form",
 
     initialize: function(){
       this.$el.hide();
-      this.model = new TrackedTagArray();
     },
 
     events: {
-      "click button": "trackTag"
+      "keyup input": "searchHandler"
     },
 
     render: function(){
       this.$el.show();
-      $('#tag-tracker-input').typeahead({
+      /*
+      $('#tag-search-form input').typeahead({
         name: 'tags',
         local: tagListView.tagNameArray
-      });
+      }); */
       var self = this;
-      this.model.fetch({
-        success: function(response, xhr){
-          _.each(self.model.tagArray, function(tag){
-             $("#tag-container").append("<div class='label label-danger'>" + tag + " <i class='icon-remove'></i> </div>");
-          })
-        }  
-      })
     },
 
     remove: function(){
       this.$el.hide();
     },
 
-    trackTag: function(){
-      var tagName = $("#tag-tracker-input").val();
-      this.model.tagArray.push(tagName);
-      console.log(this.model.tagArray)
-      
-      this.render();
-    }
-  });
-
-  var TrackedTagArray = Backbone.Model.extend({
-    url: '/api/trackedtags',
-
-    initialize: function(){
-      this.tagArray = [];
+    searchHandler: function(event){
+      Backbone.trigger('tagSearch', event, $("#tag-search-form input").val())
     }
   });
 
@@ -217,10 +198,10 @@ var TaskRouter = Backbone.Router.extend({
       url: '/api/tasklist',
 
       initialize: function(){
-        this.on('sync', this.createFiltered);
+        this.on('sync', this.createOriginal);
       },
 
-      createFiltered: function(models){
+      createOriginal: function(models){
         this.original = new Backbone.Collection(models.models);
       },
 
@@ -250,12 +231,6 @@ var TaskRouter = Backbone.Router.extend({
 
       searchTasks: function(event, query){
         var self= this;
-        var splitted = query.split(' ');
-        var searchRegExp = '';
-        splitted.forEach(function(split, index){
-          searchRegExp += '(?=.*' + split + ')'
-        })
-        console.log(searchRegExp)
         var searchPattern = new RegExp(query,"gi");
         var searched = _.filter(this.collection.original.models, function(task){
           return searchPattern.test(task.get("name")) || searchPattern.test(task.get("assignee"));
@@ -263,7 +238,6 @@ var TaskRouter = Backbone.Router.extend({
         this.collection.reset(searched);
         $(this.el).remove();
         self.render();
-
       },
 
       setWorkspaceFilter: function(event){
@@ -360,6 +334,15 @@ var TaskRouter = Backbone.Router.extend({
   var TagList = Backbone.Collection.extend({
       url: '/api/taglist',
 
+      initialize: function(){
+        this.on('sync', this.createOriginal);
+      },
+
+      createOriginal: function(models){
+        console.log('createOriginal')
+        this.original = new Backbone.Collection(models.models);
+      },
+
       parse: function(tags){
           var self = this;
           _.each(tags, function(tag){
@@ -378,15 +361,27 @@ var TaskRouter = Backbone.Router.extend({
       el: $("#tag-view"),
       menuId: "#tags",
 
-      initialize: function(){
-        $(this.el).html('');
+      searchTags: function(event, query){
         var self = this;
+        var searchPattern = new RegExp(query,"gi");
+        var searched = _.filter(self.collection.original.models, function(tag){
+          return searchPattern.test(tag.get("name"));
+        });
+        this.collection.reset(searched);
+        $(this.el).remove();
+        self.render();
+      },
+
+      initialize: function(){
+        //$(this.el).html('');
+        var self = this;
+        Backbone.on('tagSearch', this.searchTags, self);
         this.collection = new TagList();
         this.collection.fetch({
           success: function(response, xhr){
             self.trigger('loaded');
-            self.tagTrackerForm = new TagTrackerForm();
-            self.tagNameArray = [];
+            self.tagSearchForm = new TagSearchForm();
+            self.tagNameArray = [];  // for use in typeahead
             self.collection.models.forEach(function(tag, index){
               self.tagNameArray.push(tag.get('name'));
             })

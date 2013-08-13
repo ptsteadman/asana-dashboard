@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Asana Dashboard</title>
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <meta name="description" content="Dashboard for viewing priority Asana items.">
+
+    <!-- Le styles -->
+        <!--<script src="http://dabblet.com/code/prefixfree.min.js"></script>-->
+    <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="stylesheets/font-awesome.css" rel="stylesheet">
+    <link href="stylesheets/custom.css" rel="stylesheet">
+
+    <!-- Fav and touch icons -->
+    <link rel="shortcut icon" href="favicon.ico">
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <a class="navbar-brand" href="/">Asana Dashboard</i></a>
+        <ul class="nav navbar-nav" style="float:right; margin-right: 60px;">
+           <li><a href="configure">Configure</a></li>
+        </ul>
+    </div>
+
+
+    <div class="container"> 
+      <div class="row">
+        <div class="col-lg-2">
+          <nav id="sidebar-nav">
+            <ul class="nav nav-pills nav-stacked affix">
+              <li><a href="#"><i class="icon-home"></i> Home</a></li>
+              <li><a href="#recentlyCompleted"><i class="icon-ok"></i> Recently Completed</a></li>
+              <li><a href="#tags"><i class="icon-tags"></i> Tags</a></li>
+              <li><a href="#search"><i class="icon-search"></i> Search</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-lg-8">
+          <form id="tag-search-form" class="form-inline">
+            <div class="col-lg-12">
+                <input type="text" class="form-control" placeholder="Find a tag...">
+            </div>
+
+            <!-- UNUSED TAG TRACKER FUNCTIONALITY
+            <div id="tag-tracker-well" class="well">
+              <div id="tag-container"></div>
+                <div class="input-group">
+                <input type="text" id="tag-tracker-input" class="form-control" placeholder="Start typing the name of a tag...">
+                <span class="input-group-btn">
+                  <button class="btn btn-primary" type="button">Start Tracking Tag</button>
+                </span>  
+                </div>              
+            </div>
+          -->
+          </form>
+
+          <form id="task-search-form" class="form-inline">
+              <div class="col-lg-12">
+                <input type="text" class="form-control" placeholder="Search by anything...">
+              </div>
+          </form>
+              
+          <div id="main-content"></div>
+        </div>
+        <div class="col-lg-2">
+            <form id="task-filter-form" class="form-horizontal">
+              <div class="control-group">
+                  <label class="control-label" for="completed-filter">Filter By Completed</label>
+                  <div class="controls">
+                    <select id="completed-filter" class="form-control">
+                      <option>Show All</option>
+                      <option>Only Show Completed</option>
+                      <option>Don't Show Completed</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="completed-filter">Filter By Assigned</label>
+                  <div class="controls">
+                    <select id="assigned-filter" class="form-control">
+                      <option>Show All</option>
+                      <option>Only Show Assigned Tasks</option>
+                      <option>Don't Show Assigned Tasks</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="completed-filter">Filter By Workspace</label>
+                  <div class="controls" id="workspace-filter">
+                  
+                  </div>
+                </div>
+              </form>
+          </div>         
+        </div>
+      </div>
+    </div> <!-- /container -->
+
+    <!--TEMPLATES-->
+    
+
+    <script id="task-template" type="text/template">
+      <div class="task-header">
+        <a class="asana-link" href="https://app.asana.com/0/<%= href %>"><%= name %></a>
+        <h5><%= workspace %>: <small> <%= project %></small></h5>
+      </div>
+      <div class="task-status"> 
+        <span class="badge badge-info"><%- assignee != 'Not assigned.' ? 'Assigned to: ' + assignee : ''%></span>
+        <span class="badge badge-success"><%- completed_at != 'Not completed.' ? 'Completed: ' + completed_at.substring(0,10) : '' %></span>
+      </div>
+    </script>
+    <script id="tag-template" type="text/template">
+      <div class='panel'>
+        <div class='panel-heading' data-toggle="collapse" data-target=".demo">
+          <h3 class="panel-title"><strong><%= name %></strong></h3>
+        </div>
+        <div class="demo">
+          <ul>
+              <% _.each(tasks, function(task) { %>
+                <li>
+                  <%= task.name %>
+                </li>
+              <% }); %>
+          </ul>
+        </div>
+      </div>
+    </script>
+
+<!--
+    <div class="footer">
+      <div class="container">
+        <p>Made with Node, Express, MongoDB, and Twitter Bootstrap.  July 2013.</p>
+      </div>
+    </div>
+  -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/typeahead.min.js"></script>
+    <script src="js/underscore.js"></script>
+    <script src="js/backbone.js"></script>
+    <script src="/site3.js"></script>
+
+  </body>
+</html>

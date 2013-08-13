@@ -1,11 +1,10 @@
 {
-	"name":"asadash",
+	"name":"asanadash",
 	"version":"0.0.1",
 	"dependencies": {
 		"express":"3.x",
 		"ejs": "*",
 		"asana-api": "*",
-		"qunitjs": "*",
 		"mongodb": "*",
 		"async": "*"
 	}

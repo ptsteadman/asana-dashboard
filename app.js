@@ -7,6 +7,8 @@ app.set('view engine', 'ejs');  //use ejs as view engine (no ejs is actually use
 app.use(express.logger('dev'));  //use development terminal logging
 app.use(express.static(__dirname + '/public'));  //where static assets like stylesheets are
 app.use(express.bodyParser());
+app.engine('html', require('ejs').renderFile);
+var ejs = require('ejs'); ejs.open = '{{'; ejs.close = '}}';
 
 app.get('/', routes.index);
 app.get('/api/:call', routes.api);

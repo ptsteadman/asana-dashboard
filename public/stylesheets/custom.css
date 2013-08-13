@@ -215,23 +215,12 @@ body {
     margin: 0;
 }
 
-
-
-#tag-container{
-    margin-bottom: 10px;
+#tag-search-form {
+    margin-bottom: 50px;
 }
 
-#tag-container div {
-    margin-right: 8px;
-    margin-bottom: 5px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    display: inline-block;
-    box-shadow: 1px 1px 1px grey;
-}
-
-#tag-container div i:hover{
-    color: black;
+.panel {
+    margin-bottom: 8px;
+    
 }
 
