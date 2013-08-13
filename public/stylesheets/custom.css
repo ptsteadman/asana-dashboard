@@ -221,6 +221,9 @@ body {
 
 .panel {
     margin-bottom: 8px;
-    
+
 }
 
+.collapse{
+    overflow: hidden;
+}

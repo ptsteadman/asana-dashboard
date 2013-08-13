@@ -7,7 +7,11 @@ var ObjectID = require('mongodb').ObjectID;
 AsanaProvider = function(host, port) {
 	this.db = new Db('ghost', new Server(host, port), {safe: false}, {auto_reconnect: true}, {});
 	this.db.open(function(err){
-		console.log(err)
+		if (err) { 
+			console.log(err + " : Can't Connect to Mongo: did you start the Mongo Daemon? (mongod)"); 
+		} else {
+			console.log("Connected to Asana Ghost Database.");
+		}
 	});
 }
 

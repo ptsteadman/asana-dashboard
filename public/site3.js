@@ -18,11 +18,11 @@ var TaskRouter = Backbone.Router.extend({
       },
 
       home: function(){
-          Presenter.showView(home);
+          Presenter.showViews([taskListView, taskListView.taskFilterForm, taskListView.taskSearchForm]);
       },
 
       recentlyCompleted: function(){
-          Presenter.showView(recentTasksView);
+          //Presenter.showView(recentTasksView);
       },
 
       tags: function(){
@@ -349,7 +349,8 @@ var TaskRouter = Backbone.Router.extend({
               var tagModel = new Tag();
               tagModel.set({
                   name: tag.name,
-                  tasks: tag.tasks
+                  tasks: tag.tasks,
+                  id: tag.id
               });
               self.push(tagModel);
           });
