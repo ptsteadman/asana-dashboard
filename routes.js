@@ -6,7 +6,8 @@ exports.index = function(req,res){
 }
 
 exports.updatedb = function(req, res){
-	api.updatedb(req, res);
+	api.updatedb();
+	res.send("Database should update.");
 }
 
 exports.api = function(req,res){

@@ -3,11 +3,17 @@ var mongo = require('mongodb');
 var AsanaProvider = require('./asanaprovider').AsanaProvider;
 var utils = require('./utilities');
 var async = require('async');
+var cronJob = require('cron').CronJob;
+
+new cronJob('0 0 * * * *', function(){
+    exports.updatedb();  
+}, null, true, "America/New_York");
+
 
 
 var ghost = new AsanaProvider('localhost', 27017);
 var client = asana.createClient({
-		apiKey: '1Pjl79Np.wMQCNmrfCJSud3WBef3w87s'
+		apiKey: '23WBqq2D.ZGmDolbvXWotOFTX1jJG7w8'
 });
 
 //CREATE
@@ -17,7 +23,7 @@ exports.testIt = function(req, res){
 	res.send('test');
 }
 
-exports.updatedb = function(req, res){
+exports.updatedb = function(){
 	console.log(client);
 	console.log('updating');
 	var start = new Date();
@@ -96,9 +102,8 @@ exports.updatedb = function(req, res){
 		}
 		], function(err){
 			console.log("DONE!!!!!");
-			console.log(err + "lastError")
 			var done = new Date();
-			res.send("Asana ghost DB updated in " + ((done.getTime() - start.getTime())/1000) + " secs.");
+			console.log("Asana ghost DB updated in " + ((done.getTime() - start.getTime())/1000) + " secs.");
 	})
 }
 

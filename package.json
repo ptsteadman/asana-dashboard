@@ -6,7 +6,9 @@
 		"ejs": "*",
 		"asana-api": "*",
 		"mongodb": "*",
-		"async": "*"
+		"async": "*",
+		"cron": "*",
+		"time": "*"
 	}
 }
 
