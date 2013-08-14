@@ -15,6 +15,7 @@ app.get('/api/:call', routes.api);
 app.get('/tests', routes.tests);
 app.get('/configure', routes.configure);
 app.get('/updatedb', routes.updatedb);
+app.get('/augment', routes.augment)
 app.post('/api/:call', routes.postapi);
 
 

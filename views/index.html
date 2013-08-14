@@ -126,13 +126,16 @@
           <h3 class="panel-title"><strong><%= name %></strong></h3>
         </div>
         <div id="demo<%= id %>" class="in">
-          <ul>
+          <table>
               <% _.each(tasks, function(task) { %>
-                <li>
-                  <%= task.name %>
-                </li>
+                <% if (task[0]) { %>
+                  <tr>
+                    <td><%= task[0].name %><td>
+                    <td><%= task[0].workspace[0] %><td>
+                  </tr>
+                <% } %>
               <% }); %>
-          </ul>
+          </table>
         </div>
       </div>
     </script>

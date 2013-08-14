@@ -61,3 +61,11 @@ exports.tests = function(req,res){
 exports.configure = function(req,res){
 	res.render('configure');
 }
+
+exports.augment = function(req, res){
+	utils.augmentTags(function(){
+		ghost.findAllIn('tagList', function(error, tags){
+			res.send('Tags updated.')
+		});
+	});
+}
