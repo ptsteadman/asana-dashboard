@@ -61,7 +61,7 @@ AsanaProvider.prototype.findById = function(theId, collectionName, callback) {
     this.getCollection(collectionName, function(error, theCollection) {
       if( error ) callback(error);
       else {
-        theCollection.find({projects: { $elemMatch : { 'id': theId } }}).toArray(function(error, result) {
+        theCollection.find({ 'id': theId }).toArray(function(error, result) {
           if( error ){
           	console.log('error!')
           	callback(error);

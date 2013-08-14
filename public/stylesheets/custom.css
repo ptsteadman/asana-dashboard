@@ -224,6 +224,14 @@ body {
 
 }
 
-.collapse{
-    overflow: hidden;
+.panel-heading{
+    cursor: pointer;
+}
+
+.label {
+    font-size: 12px;
+}
+
+.label-box {
+    margin-bottom: 3px;
 }

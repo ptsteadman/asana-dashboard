@@ -71,8 +71,8 @@
                   <div class="controls">
                     <select id="completed-filter" class="form-control">
                       <option>Show All</option>
-                      <option>Only Show Completed</option>
-                      <option>Don't Show Completed</option>
+                      <option>Completed Tasks</option>
+                      <option>Incomplete Tasks</option>
                     </select>
                   </div>
                 </div>
@@ -81,8 +81,8 @@
                   <div class="controls">
                     <select id="assigned-filter" class="form-control">
                       <option>Show All</option>
-                      <option>Only Show Assigned Tasks</option>
-                      <option>Don't Show Assigned Tasks</option>
+                      <option>Unassigned Tasks</option>
+                      <option>Assigned Tasks</option>
                     </select>
                   </div>
                 </div>
@@ -93,6 +93,7 @@
                   </div>
                 </div>
               </form>
+              <h5>Results: <strong><span class="text-danger" id="number-of-results"></span></strong></h5>
           </div>         
         </div>
       </div>
@@ -107,8 +108,16 @@
         <h5><%= workspace %>: <small> <%= project %></small></h5>
       </div>
       <div class="task-status"> 
-        <span class="badge badge-info"><%- assignee != 'Not assigned.' ? 'Assigned to: ' + assignee : ''%></span>
-        <span class="badge badge-success"><%- completed_at != 'Not completed.' ? 'Completed: ' + completed_at.substring(0,10) : '' %></span>
+        <% if(completed_at != 'Not completed.'){ %>
+          <div class='label-box'>
+            <span class='label label-default'>Assigned to: <strong> <%= assignee %> </strong></span>
+          </div>
+        <% } %>
+        <% if(completed_at != 'Not completed.'){ %>
+          <div class='label-box'>
+            <span class='label label-success'>Completed: <strong> <%= completed_at.substring(0,10) %> </strong></span>
+          </div>
+        <% } %>
       </div>
     </script>
     <script id="tag-template" type="text/template">
@@ -116,7 +125,7 @@
         <div class='panel-heading' data-toggle="collapse" data-target="#demo<%= id %>">
           <h3 class="panel-title"><strong><%= name %></strong></h3>
         </div>
-        <div id="demo<%= id %>" class="collapse">
+        <div id="demo<%= id %>" class="in">
           <ul>
               <% _.each(tasks, function(task) { %>
                 <li>

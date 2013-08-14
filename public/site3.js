@@ -18,11 +18,11 @@ var TaskRouter = Backbone.Router.extend({
       },
 
       home: function(){
-          //Presenter.showView(home);
+          Presenter.showViews([taskListView, taskListView.taskFilterForm, taskListView.taskSearchForm]);
       },
 
       recentlyCompleted: function(){
-          Presenter.showView(recentTasksView);
+          Presenter.showViews([recentTasksView]);
       },
 
       tags: function(){
@@ -94,9 +94,7 @@ var TaskRouter = Backbone.Router.extend({
     },
 
     createSelect: function () {
-      var select = $("<select class='form-control'/>", {
-        html: "<option>Select Team</option>"
-      });
+      var select = $("<select id='workspace-filter' class='form-control'><option>All</option></select>");
 
       _.each(taskListView.getWorkspaces(), function (workspace) {
         var option = $("<option/>", {
@@ -108,7 +106,7 @@ var TaskRouter = Backbone.Router.extend({
     },
 
     selectHandler: function(event){
-      Backbone.trigger('selectChanged', event);
+      Backbone.trigger('selectChanged:' + event.currentTarget.id , event);
     },
 
     render: function(){
@@ -199,10 +197,15 @@ var TaskRouter = Backbone.Router.extend({
 
       initialize: function(){
         this.on('sync', this.createOriginal);
+        this.on('sync', this.createFiltered);
       },
 
       createOriginal: function(models){
         this.original = new Backbone.Collection(models.models);
+      },
+
+      createFiltered: function(models){
+       this.filtered = new Backbone.Collection(models.models);
       },
 
       parse: function(tasks){
@@ -232,17 +235,12 @@ var TaskRouter = Backbone.Router.extend({
       searchTasks: function(event, query){
         var self= this;
         var searchPattern = new RegExp(query,"gi");
-        var searched = _.filter(this.collection.original.models, function(task){
+        var searched = _.filter(this.collection.filtered.models, function(task){
           return searchPattern.test(task.get("name")) || searchPattern.test(task.get("assignee"));
         });
         this.collection.reset(searched);
         $(this.el).remove();
         self.render();
-      },
-
-      setWorkspaceFilter: function(event){
-        this.filterWorkspace = event.currentTarget.value;
-        Backbone.trigger("change:filterWorkspace");
       },
 
       getWorkspaces: function () {
@@ -251,20 +249,74 @@ var TaskRouter = Backbone.Router.extend({
         });
       },
 
-      filterByWorkspace: function () {
-        var filterWorkspace = this.filterWorkspace;
-        var filtered = _.filter(this.collection.original.models, function (task) {
-            return task.get("workspace").toLowerCase() === filterWorkspace;
-        });
-        this.collection.reset(filtered);
-        this.render();
+      filterByWorkspace: function (event) {
+        this.workspaceFilter = event.currentTarget.value;
+        var workspaceFilter = this.workspaceFilter;
+        if( workspaceFilter == 'All' ){
+          this.collection.reset(this.collection.original);
+          this.collection.filtered.models = this.collection.original.models;
+        } else {
+          var filtered = _.filter(this.collection.original.models, function (task) {
+            return task.get("workspace").toLowerCase() === workspaceFilter;
+          });
+          this.collection.filtered.models = filtered;
+          this.collection.reset(filtered);
+        }
+        this.searchTasks(null, $("#task-search-form input").val());
+      },
+
+      filterByAssigned: function(event){
+        this.assignedFilter = event.currentTarget.value;
+        var assignedFilter = this.assignedFilter;
+
+        if ( assignedFilter == "Show All") {
+          this.collection.reset(this.collection.original.models);
+          this.collection.filtered.models = this.collection.original.models;
+        } else if ( assignedFilter == "Unassigned Tasks" ){
+          var filtered = _.filter(this.collection.original.models, function (task) {
+            return task.get("assignee") == "Not assigned.";
+          });
+          this.collection.filtered.models = filtered;
+          this.collection.reset(filtered);
+        } else if ( assignedFilter == "Assigned Tasks" ){
+          var filtered = _.filter(this.collection.original.models, function (task) {
+            return task.get("assignee") != "Not assigned.";
+          });
+          this.collection.filtered.models = filtered;
+          this.collection.reset(filtered);
+        }
+        this.searchTasks(null, $("#task-search-form input").val());
+      },
+
+      filterByCompleted: function(event){
+        this.completedFilter = event.currentTarget.value;
+        var completedFilter = this.completedFilter;
+
+        if ( completedFilter == "Show All") {
+          this.collection.reset(this.collection.original.models);
+          this.collection.filtered.models = this.collection.original.models;
+        } else if ( completedFilter == "Completed Tasks" ){
+          var filtered = _.filter(this.collection.original.models, function (task) {
+            return task.get("completed_at") != "Not completed.";
+          });
+          this.collection.filtered.models = filtered;
+          this.collection.reset(filtered);
+        } else if ( completedFilter == "Incomplete Tasks" ){
+          var filtered = _.filter(this.collection.original.models, function (task) {
+            return task.get("completed_at") == "Not completed.";
+          });
+          this.collection.filtered.models = filtered;
+          this.collection.reset(filtered);
+        }
+        this.searchTasks(null, $("#task-search-form input").val());
       },
 
       initialize: function(){
         var self = this;
-        Backbone.on('selectChanged', this.setWorkspaceFilter, self);
+        Backbone.on('selectChanged:workspace-filter', this.filterByWorkspace, self);
+        Backbone.on('selectChanged:assigned-filter', this.filterByAssigned, self);
+        Backbone.on('selectChanged:completed-filter', this.filterByCompleted, self);
         Backbone.on('search', this.searchTasks, self);
-        Backbone.on("change:filterWorkspace", this.filterByWorkspace, self);
         this.on("render", $(this.el).show());          
         this.collection = new TaskList();
         this.collection.fetch({
@@ -294,6 +346,7 @@ var TaskRouter = Backbone.Router.extend({
             }
             if (index + 1 == collectionLength){
               $("#main-content").html(self.taskViewArray);
+              $("#number-of-results").text(collectionLength)
               break;
 
             }
@@ -309,6 +362,28 @@ var TaskRouter = Backbone.Router.extend({
         this.taskViewArray.push(taskView.el)
       }
   });
+
+ var RecentlyCompletedTaskList = TaskList.extend({
+    url: '/api/completed'
+  })
+
+  var RecentlyCompletedListView = TaskListView.extend({
+    menuId: "#recentlyCompleted",
+
+    initialize: function(){
+        var self = this;
+        Backbone.on('search', this.searchTasks, self);
+        this.on("render", $(this.el).show());          
+        this.collection = new RecentlyCompletedTaskList();
+        this.collection.fetch({
+          success: function(response, xhr){   
+          },
+          error: function(error){
+              console.log(error)
+          }
+        });
+      },
+  })
 
   // TAGS Models, Collections, Views
 
@@ -397,6 +472,7 @@ var TaskRouter = Backbone.Router.extend({
           self.renderTag(tag);
         }, this);
         $("#main-content").html(this.tagViewArray);
+        $("#number-of-results").text(this.tagViewArray.length)
 
       },
 
@@ -411,6 +487,7 @@ var TaskRouter = Backbone.Router.extend({
   var App = _.extend({}, Backbone.Events);
   var tagListView = new TagListView();
   var taskListView = new TaskListView();
+  var recentTasksView = new RecentlyCompletedListView();
   $("#main-content").html('');
   var taskRouter = new TaskRouter();
   // Fix this: hack to prevent router from starting until loaded

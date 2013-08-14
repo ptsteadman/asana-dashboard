@@ -67,10 +67,22 @@ exports.augmentTasks = function(callback){
 exports.augmentTags = function(callback){
 	ghost.findAllIn('tagList', function(err, tags){
 		async.forEach(tags, function(tag, callback){
-			client.tags.tasks(tag.id, function(error, tasks){
-				tag.tasks = tasks;
-				callback();
-			}, callback);
+			(function(tag){
+				client.tags.tasks(tag.id, function(error, tasks){
+					(function(tasks, tag){
+						async.forEach(tasks, function(task, callback){
+							ghost.findById(task.id, 'taskList', function(error, detailedTask){
+								task = detailedTask;
+								console.log(task);
+								callback();
+							});
+						}, function(){ 
+							tag.tasks = tasks; 
+						});
+					})(tasks, tag);
+					callback();
+				});
+			})(tag)
 		}, function(){
 			ghost.save(tags, 'tagList');
 			console.log('Tags Augmented.');
