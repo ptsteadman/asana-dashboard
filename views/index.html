@@ -17,55 +17,50 @@
   </head>
 
   <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <a class="navbar-brand" href="/">Asana Dashboard</i></a>
-        <ul class="nav navbar-nav" style="float:right; margin-right: 60px;">
-           <li><a href="configure">Configure</a></li>
-        </ul>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+      <div class="row">
+      <div class="col-2">
+        <a class="navbar-brand" href="/">Asana Dashboard</i></a>
+      </div>
+      <div class="col-8">      
+        <form class="navbar-form" id="task-search-form" role="search">
+          <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search by anything...">
+          </div>
+        </form>
+        <form class="navbar-form" id="tag-search-form" role="search">
+          <div class="form-group">
+              <input type="text" class="form-control" placeholder="Find a tag...">
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
+    </nav>
+
+
+
 
 
     <div class="container"> 
       <div class="row">
-        <div class="col-lg-2">
-          <nav id="sidebar-nav">
+        <div class="col-2">
+          <nav id="sidebar-nav">   
             <ul class="nav nav-pills nav-stacked affix">
               <li><a href="#"><i class="icon-home"></i> Home</a></li>
-              <li><a href="#recentlyCompleted"><i class="icon-ok"></i> Recently Completed</a></li>
-              <li><a href="#tags"><i class="icon-tags"></i> Tags</a></li>
-              <li><a href="#search"><i class="icon-search"></i> Search</a></li>
+              <li><a href="#tags"><i class="icon-tags"></i> Search Tags</a></li>
+              <li><a href="#search"><i class="icon-search"></i> Search Tasks</a></li>
             </ul>
           </nav>
-        </div>
-        <div class="col-lg-8">
-          <form id="tag-search-form" class="form-inline">
-            <div class="col-lg-12">
-                <input type="text" class="form-control" placeholder="Find a tag...">
-            </div>
-
-            <!-- UNUSED TAG TRACKER FUNCTIONALITY
-            <div id="tag-tracker-well" class="well">
-              <div id="tag-container"></div>
-                <div class="input-group">
-                <input type="text" id="tag-tracker-input" class="form-control" placeholder="Start typing the name of a tag...">
-                <span class="input-group-btn">
-                  <button class="btn btn-primary" type="button">Start Tracking Tag</button>
-                </span>  
-                </div>              
-            </div>
-          -->
-          </form>
-
-          <form id="task-search-form" class="form-inline">
-              <div class="col-lg-12">
-                <input type="text" class="form-control" placeholder="Search by anything...">
-              </div>
-          </form>
-              
+           
+        </div><!-- COL -->
+        <div class="col-8">    
           <div id="main-content"></div>
         </div>
-        <div class="col-lg-2">
-            <form id="task-filter-form" class="form-horizontal">
+        <div class="col-2">
+          <form id="task-filter-form" class="form-horizontal affix">
+              <h5>Results: <strong><span class="text-danger" id="number-of-results"></span></strong></h5>
               <div class="control-group">
                   <label class="control-label" for="completed-filter">Filter By Completed</label>
                   <div class="controls">
@@ -93,9 +88,7 @@
                   </div>
                 </div>
               </form>
-              <h5>Results: <strong><span class="text-danger" id="number-of-results"></span></strong></h5>
-          </div>         
-        </div>
+        </div>        
       </div>
     </div> <!-- /container -->
 
@@ -126,12 +119,16 @@
           <h3 class="panel-title"><strong><%= name %></strong></h3>
         </div>
         <div id="demo<%= id %>" class="in">
-          <table>
+          <table class="table">
+            <thead><tr><th>Task Name</th><th>Task Workspace</th><th>Priority Header</th></tr></thead>
               <% _.each(tasks, function(task) { %>
                 <% if (task[0]) { %>
+
                   <tr>
-                    <td><%= task[0].name %><td>
-                    <td><%= task[0].workspace[0] %><td>
+                    <% console.log(task[0]) %>
+                    <td><%= task[0].name %></td>
+                    <td><%= task[0].workspace.name %></td>
+                    <td><%= task[0].projects[0].name %></td>
                   </tr>
                 <% } %>
               <% }); %>
@@ -153,6 +150,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
 
     <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/d3.v3.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/typeahead.min.js"></script>
     <script src="js/underscore.js"></script>

@@ -69,8 +69,8 @@ exports.augmentTags = function(callback){
 	var getTagTasks = function(tag, callback){
 		client.tags.tasks(tag.id, function(error, tasks){
 			if(tasks){
-				async.map(tasks, getDetailedTask, function(err, tasks){
-					tag.tasks = tasks;
+				async.map(tasks, getDetailedTask, function(err, detailedTasks){
+					tag.tasks = detailedTasks;
 					callback(null, tag);
 				});
 			} else callback(null,tag);
@@ -79,7 +79,11 @@ exports.augmentTags = function(callback){
 
 	var getDetailedTask = function(task, callback){
 		ghost.findById(task.id, 'taskList', function(error, detailedTask){
-			callback(null, detailedTask);
+			if (detailedTask != []){
+				callback(null, detailedTask);				
+			} else {
+				callback(null, task);
+			}
 		})
 	}
 

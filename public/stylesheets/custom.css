@@ -1,12 +1,25 @@
 body { 
-    padding-top: 70px;
+    padding-top: 80px;
 
 }
 
+nav {
+    height: 51px;
+    /*min-width: 1500px; */
+}
 
 .navbar-brand {
-    margin-left: 35px;
+    min-width: 100px;
 }
+
+nav form {
+    margin-left: -17px;
+}
+
+.container {
+    max-width: 2000px;
+}
+
 
 .footer {
 	text-align: center;
@@ -87,7 +100,11 @@ body {
 }
 
 #sidebar-nav {
-    min-height: 190px;
+    height: 150px;
+}
+
+#sidebar-nav li{
+    width: 190px;
 }
 
 #task-template{
@@ -150,10 +167,6 @@ body {
     color: black;
 }
 
-#task-search-form {
-    padding-bottom: 45px;
-    /*border-bottom: 1px solid #eee;*/
-}
 
 #task-filter-form {
     opacity: .9;
@@ -215,9 +228,6 @@ body {
     margin: 0;
 }
 
-#tag-search-form {
-    margin-bottom: 50px;
-}
 
 .panel {
     margin-bottom: 8px;
