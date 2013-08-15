@@ -276,10 +276,6 @@ function zoom(d) {
       className: 'task',
       template: "#task-template",
 
-      initialize: function(){
-        this.model.on('change', this.render());
-      },
-
       render: function(){
           var template = TemplateCache.get(this.template)
           this.$el.html(template(this.model.toJSON()));
@@ -315,6 +311,7 @@ function zoom(d) {
                   created_at: task.created_at,
                   notes: task.notes ? task.notes : "No notes.",
                   project: task.projects ? task.projects[0].name : "Not in a project.",
+                  priority_header: task.priority_header ? task.priority_header : "Header not set.",
                   href: task.projects ? task.projects[0].id + '/' + task.id : "#"
               });
               self.push(taskModel);
@@ -331,7 +328,7 @@ function zoom(d) {
         var self= this;
         var searchPattern = new RegExp(query,"gi");
         var searched = _.filter(this.collection.filtered.models, function(task){
-          return searchPattern.test(task.get("name")) || searchPattern.test(task.get("assignee"));
+          return searchPattern.test(task.get("assignee"))  || searchPattern.test(task.get("assignee"));
         });
         this.collection.reset(searched);
         $(this.el).remove();
@@ -428,19 +425,33 @@ function zoom(d) {
 
       render: function(){
         this.taskViewArray = [];
+        this.taskGroupArray = [];  // collects tasks with the same project / priority header into a group
+        this.groupArray = [];  // groups pushed to here before they are all rendered
         var self = this;
         var index = 0;
         var collectionLength = this.collection.models.length;
+        console.log(this.collection.models)
         self.renderProcess = function(){
           while(index < collectionLength){
-            self.renderTask(self.collection.models[index]);
+            if (index != 0){
+              if (self.collection.models[index].get('priority_header') == self.collection.models[index-1].get('priority_header')){
+                self.taskGroupArray.push(self.collection.models[index]);
+              } else {
+                self.renderGroup(self.taskGroupArray);
+                self.taskGroupArray = [self.collection.models[index]];
+              }
+            } else {
+              self.taskGroupArray.push(self.collection.models[index]);
+            }
             index++;
             if (index % 20 == 0){
               setTimeout(function(){ self.renderProcess() }, 0);
               break;
             }
-            if (index + 1 == collectionLength){
-              $("#main-content").html(self.taskViewArray);
+            if (index == collectionLength){
+              self.renderGroup(self.taskGroupArray);
+              self.taskGroupArray = [self.collection.models[index]];
+              $("#main-content").html(self.groupArray);
               $("#number-of-results").text(collectionLength);
               break;
 
@@ -450,35 +461,41 @@ function zoom(d) {
         self.renderProcess();
       },
 
+      renderGroup: function(taskGroupList){
+        var taskGroup = new TaskGroupView({
+          model: taskGroupList
+        });
+        this.groupArray.push(taskGroup.el);
+      }
+  });
+
+  var TaskGroupView = Backbone.View.extend({
+      className: 'panel',
+
+      initialize: function(){
+        this.render();
+      },
+
+      render: function(){
+        var self = this;
+        var taskGroupArray = [];
+        for(var i = 0; i < this.model.length; i++){
+          taskGroupArray.push(self.renderTask(this.model[i]));
+        }
+        var header = this.model[0] ? this.model[0].get('priority_header') : 'No header.';
+        var headerHTML = $("<div class='panel-heading>" + header + "</div>");
+        $(this.el).append("<h4>" + header + "</h4>");
+        $(this.el).append(taskGroupArray)
+      },
+
       renderTask: function(task){
         var taskView = new TaskView({
             model: task
         });
-        this.taskViewArray.push(taskView.el)
-      }
-  });
-
- var RecentlyCompletedTaskList = TaskList.extend({
-    url: '/api/completed'
-  })
-
-  var RecentlyCompletedListView = TaskListView.extend({
-    menuId: "#recentlyCompleted",
-
-    initialize: function(){
-        var self = this;
-        Backbone.on('search', this.searchTasks, self);
-        this.on("render", $(this.el).show());          
-        this.collection = new RecentlyCompletedTaskList();
-        this.collection.fetch({
-          success: function(response, xhr){   
-          },
-          error: function(error){
-              console.log(error)
-          }
-        });
+        return taskView.render().el;
       },
-  })
+
+  });
 
   // TAGS Models, Collections, Views
 
@@ -582,7 +599,6 @@ function zoom(d) {
   var App = _.extend({}, Backbone.Events);
   var tagListView = new TagListView();
   var taskListView = new TaskListView();
-  var recentTasksView = new RecentlyCompletedListView();
   var home = new Home();
   $("#main-content").html('');
   var taskRouter = new TaskRouter();

@@ -12,11 +12,8 @@ var ejs = require('ejs'); ejs.open = '{{'; ejs.close = '}}';
 
 app.get('/', routes.index);
 app.get('/api/:call', routes.api);
-app.get('/tests', routes.tests);
-app.get('/configure', routes.configure);
 app.get('/updatedb', routes.updatedb);
 app.get('/augment', routes.augment)
-app.post('/api/:call', routes.postapi);
 
 
 app.listen(3002);

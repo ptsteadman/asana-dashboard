@@ -24,9 +24,6 @@ exports.api = function(req,res){
 		case "completed":
 			api.completed(req, res);
 			break;
-		case "currentSprint":
-			api.currentSprint(req, res);
-			break;
 		case "taglist":
 			api.taglist(req, res);
 			break;
@@ -38,28 +35,7 @@ exports.api = function(req,res){
 				res.send("Augmented!");
 			});
 			break;
-		case "trackedtags":
-			api.getTrackedTags(req, res);
-			break;
 	}
-}
-
-exports.postapi = function(req, res){
-	var call = req.params.call;
-
-	switch (call){
-		case "trackedtags":
-			api.postTrackedTags(req, res);
-			break;
-	}
-}
-
-exports.tests = function(req,res){
-	api.testIt(req, res);
-}
-
-exports.configure = function(req,res){
-	res.render('configure');
 }
 
 exports.augment = function(req, res){

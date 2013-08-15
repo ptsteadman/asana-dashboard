@@ -95,3 +95,17 @@ exports.augmentTags = function(callback){
 		});
 	});
 }
+
+exports.setPriorityHeaders = function(tasks, callback){
+	var currentPriorityHeader = 'Not Under Priority Header:';
+	var taskArray = [];
+	tasks.forEach(function(task, index){
+		if (task.name.charAt(task.name.length - 1) == ':'){
+			currentPriorityHeader = task.name;
+		} else {
+			task.priority_header = currentPriorityHeader;
+			taskArray.push(task);
+		}
+	});
+	callback(taskArray);
+}

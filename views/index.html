@@ -97,8 +97,9 @@
 
     <script id="task-template" type="text/template">
       <div class="task-header">
-        <a class="asana-link" href="https://app.asana.com/0/<%= href %>"><%= name %></a>
+        <a target="_blank" class="asana-link" href="https://app.asana.com/0/<%= href %>"><%= name %></a>
         <h5><%= workspace %>: <small> <%= project %></small></h5>
+        <h5><%= priority_header %></h5>
       </div>
       <div class="task-status"> 
         <% if(completed_at != 'Not completed.'){ %>
@@ -128,12 +129,17 @@
                     <% console.log(task[0]) %>
                     <td><%= task[0].name %></td>
                     <td><%= task[0].workspace.name %></td>
-                    <td><%= task[0].projects[0].name %></td>
+                    <td><%= task[0].priority_header %></td>
                   </tr>
                 <% } %>
               <% }); %>
           </table>
         </div>
+      </div>
+    </script>
+    <script id="task-group-template" type="text/template">
+      <div class='panel'>
+        <p>Sup</p>
       </div>
     </script>
 

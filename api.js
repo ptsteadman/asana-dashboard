@@ -5,12 +5,14 @@ var utils = require('./utilities');
 var async = require('async');
 var cronJob = require('cron').CronJob;
 
+
+// Controls when app updates chache
 new cronJob('0 0 * * * *', function(){
     exports.updatedb();  
 }, null, true, "America/New_York");
 
 
-
+// API key of asana-dashboard@priceline.com
 var ghost = new AsanaProvider('localhost', 27017);
 var client = asana.createClient({
 		apiKey: '23WBqq2D.ZGmDolbvXWotOFTX1jJG7w8'
@@ -78,26 +80,30 @@ exports.updatedb = function(){
 				}
 				], callback);  //PARALLEL TASKS DONE
 		},
-		//SYNCED TASKS
+		//SERIES TASKS
 		function(callback){
 			ghost.remove('taskList');
 			ghost.findAllIn('projectList', function(error, projects){
 				async.forEach(projects, function(project, callback){
 					client.projects.verboseTasks(project.id, function(error, tasks){
-						console.log('Saving bare tasks for ' + project.name);
-						ghost.saveMultiple(tasks, 'taskList', callback);
+						console.log('Saving verbose tasks for ' + project.name);
+						utils.setPriorityHeaders(tasks, function(tasksWithPriorityHeaders){
+							ghost.saveMultiple(tasksWithPriorityHeaders, 'taskList', callback);
+						});
 					});
 				}, function(error){
 						if (error) console.log(error+ "findingTasksError");
-						console.log('All bare tasks saved.')
+						console.log('All verbose tasks saved.')
 						callback();
 					});
 			});
 		},
 		function(callback){
+			// Converts project and user id's into human readable names
 			utils.augmentTasks(callback);
 		},
 		function(callback){
+			// Makes API calls to get lists of tasks for each tag, and then replaces the list with detailed tasks (kind of inefficient but...)
 			utils.augmentTags(callback);
 		}
 		], function(err){
@@ -146,49 +152,6 @@ exports.completed = function(req, res){
 	});
 }
 
-
-exports.currentSprint = function(req, res){
-			ghost.findById(4902526581434,'taskList', function(error, tasks){
-				ghost.findAllIn('userList', function(err, users){
-				taskArray = [];
-				var sprintStart = false;
-				var sprintEnd = false;
-				if (error){
-					return res.json('');
-				}
-				for(var i=0;i<tasks.length;i++){
-					if(tasks[i].name == "CURRENT SPRINT:"){
-						sprintStart = true;
-					} else {
-					if(sprintStart){
-						if(tasks[i].name == "FOR TRIAGE:"){
-							sprintEnd = true;
-						} else if (!sprintEnd) {
-							taskArray.push(tasks[i]);							
-						}
-					}
-				}
-				}
-				res.json(taskArray);
-			});
-			});
-}
-
-exports.getTrackedTags = function(req, res){
-	ghost.findAllIn('trackedTagArray', function(err, tags){
-		res.json(tags);
-	});
-}
-
-exports.postTrackedTags = function(req, res){
-	console.log(req.body);
-	var updatedArray = req.body;
-	ghost.remove('trackedTagArray');
-	ghost.saveMultiple(updatedArray, 'trackedTagArray', function(data){
-		console.log('trackedTags updated');
-		res.send(200);
-	});
-}
 
 
 
