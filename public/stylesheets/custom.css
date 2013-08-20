@@ -160,3 +160,7 @@ nav form {
     left: 10px;
     opacity: .7;
 }
+
+.table td {
+    width: 100px;
+}
