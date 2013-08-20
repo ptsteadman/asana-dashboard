@@ -81,7 +81,7 @@ exports.updatedb = function(){
 				], callback);  //PARALLEL TASKS DONE
 		},
 		//SERIES TASKS
-		function(callback){
+		function(callback){  // CALLS ASANA API AND GETS TASKS FOR ALL PROJECTS
 			ghost.remove('taskList');
 			ghost.findAllIn('projectList', function(error, projects){
 				async.forEach(projects, function(project, callback){
@@ -151,7 +151,3 @@ exports.completed = function(req, res){
 		res.json(completedTasks);
 	});
 }
-
-
-
-

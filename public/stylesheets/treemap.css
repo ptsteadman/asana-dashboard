@@ -1,0 +1,50 @@
+
+text {
+  pointer-events: none;
+  font-size: 15px;
+  font-weight: bold;
+  fill: rgb(51, 51, 51);
+  text-shadow: 0px 0px 1px #eee;
+}
+
+.grandparent text {
+  font-weight: bold;
+  font-size: 18px;
+  fill: white;
+  text-shadow: none;
+}
+
+rect {
+  fill: none;
+  stroke: #fff;
+}
+
+rect.parent,
+.grandparent rect {
+  stroke-width: 3px;
+}
+
+rect.parent:hover {
+  stroke-width: 6px;
+}
+
+.grandparent rect {
+  fill: rgb(66, 139, 202);
+}
+
+.grandparent:hover rect {
+  fill: rgb(60, 120, 190);
+}
+
+.children rect.parent,
+.grandparent rect {
+  cursor: pointer;
+}
+
+rect.parent {
+  pointer-events: all;
+}
+
+.children:hover rect.child {
+  fill: #aaa;
+}

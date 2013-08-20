@@ -11,9 +11,12 @@
     <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
     <link href="stylesheets/font-awesome.css" rel="stylesheet">
     <link href="stylesheets/custom.css" rel="stylesheet">
+    <link href="stylesheets/treemap.css" rel="stylesheet">
 
     <!-- Fav and touch icons -->
     <link rel="shortcut icon" href="favicon.ico">
+
+   
   </head>
 
   <body>
@@ -21,21 +24,24 @@
       <div class="container">
       <div class="row">
       <div class="col-2">
-        <a class="navbar-brand" href="/">Asana Dashboard</i></a>
+        <a class="navbar-brand" href="/">Asana Dashboard</a>
       </div>
-      <div class="col-8">      
-        <form class="navbar-form" id="task-search-form" role="search">
-          <div class="form-group">
-              <input type="text" class="form-control" placeholder="Search by anything...">
-          </div>
-        </form>
-        <form class="navbar-form" id="tag-search-form" role="search">
-          <div class="form-group">
-              <input type="text" class="form-control" placeholder="Find a tag...">
-          </div>
-        </form>
+      <div class="col-6">
+        <div class="input-group" id="search-form">
+          <input type="text" class="form-control" placeholder="Just start typing...">
+          <div class="input-group-btn">
+            <button type="button" id="tag-task-toggle" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Search Tasks <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li><a href="#">Search Tasks</a></li>
+              <li><a href="#tags">Search Tags</a></li>
+            </ul>
+          </div><!-- /btn-group -->
+        </div><!-- /input-group -->
       </div>
-    </div>
+      <div class='col-2'>
+        <h4 class='navbar-text'>Results: <strong><span class="text-danger" id="number-of-results"></span></strong></h4>
+      </div>
+    </div><!-- col 8 -->
   </div>
     </nav>
 
@@ -46,21 +52,7 @@
     <div class="container"> 
       <div class="row">
         <div class="col-2">
-          <nav id="sidebar-nav">   
-            <ul class="nav nav-pills nav-stacked affix">
-              <li><a href="#"><i class="icon-home"></i> Home</a></li>
-              <li><a href="#tags"><i class="icon-tags"></i> Search Tags</a></li>
-              <li><a href="#search"><i class="icon-search"></i> Search Tasks</a></li>
-            </ul>
-          </nav>
-           
-        </div><!-- COL -->
-        <div class="col-8">    
-          <div id="main-content"></div>
-        </div>
-        <div class="col-2">
           <form id="task-filter-form" class="form-horizontal affix">
-              <h5>Results: <strong><span class="text-danger" id="number-of-results"></span></strong></h5>
               <div class="control-group">
                   <label class="control-label" for="completed-filter">Filter By Completed</label>
                   <div class="controls">
@@ -82,13 +74,22 @@
                   </div>
                 </div>
                 <div class="control-group">
-                  <label class="control-label" for="completed-filter">Filter By Workspace</label>
+                  <label class="control-label" for="completed-filter">Filter By Workspaces</label>
                   <div class="controls" id="workspace-filter">
                   
                   </div>
                 </div>
               </form>
-        </div>        
+              <form id="tag-filter-form" class="form-horizontal affix">
+                <h4>Commonly Used Tags</h4>
+                <!--These are hardcoded for simplicity's sake-->
+                
+              </form>
+           
+        </div><!-- COL -->
+        <div class="col-9">    
+          <div id="main-content"></div>
+        </div>      
       </div>
     </div> <!-- /container -->
 
@@ -98,11 +99,9 @@
     <script id="task-template" type="text/template">
       <div class="task-header">
         <a target="_blank" class="asana-link" href="https://app.asana.com/0/<%= href %>"><%= name %></a>
-        <h5><%= workspace %>: <small> <%= project %></small></h5>
-        <h5><%= priority_header %></h5>
       </div>
       <div class="task-status"> 
-        <% if(completed_at != 'Not completed.'){ %>
+        <% if(assignee != 'Not assigned.'){ %>
           <div class='label-box'>
             <span class='label label-default'>Assigned to: <strong> <%= assignee %> </strong></span>
           </div>
@@ -126,7 +125,6 @@
                 <% if (task[0]) { %>
 
                   <tr>
-                    <% console.log(task[0]) %>
                     <td><%= task[0].name %></td>
                     <td><%= task[0].workspace.name %></td>
                     <td><%= task[0].priority_header %></td>
@@ -137,11 +135,7 @@
         </div>
       </div>
     </script>
-    <script id="task-group-template" type="text/template">
-      <div class='panel'>
-        <p>Sup</p>
-      </div>
-    </script>
+
 
 <!--
     <div class="footer">
@@ -156,13 +150,12 @@
     <!-- Placed at the end of the document so the pages load faster -->
 
     <script src="js/jquery-1.10.2.min.js"></script>
-    <script src="js/d3.v3.min.js"></script>
+    <script src="js/d3.v2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/typeahead.min.js"></script>
     <script src="js/underscore.js"></script>
     <script src="js/backbone.js"></script>
-      <script src="js/jquery.parallax.min.js"></script>
-    <script src="/site3.js"></script>
+    <script src="js/string_score.js"></script>
+    <script src="/app.js"></script>
 
 
   </body>
