@@ -224,8 +224,8 @@ var TaskRouter = Backbone.Router.extend({
       render: function(root){
         $("#main-content").html('');
         $("#main-content").append("<h3 style='display: inline-block;'>Search for tasks up here</h3><img class='arrow' src='../arrow.png'></img>");
-
-        $("#main-content").append("<h4 style='float: right; margin-top: 22px; margin-right: 10px;'>Tasks completed this week: <span class='text-success'> 32</span></h4><br /><br />");
+        var thisWeek = taskListView.completedThisWeek();
+        $("#main-content").append("<h4 style='float: right; margin-top: 22px; margin-right: 10px;'>Tasks completed this week: <span class='text-success'>" + thisWeek + "</span></h4><br /><br />");
         $("#main-content").append("<div id='chart'></div><br />")
 
 
@@ -517,6 +517,19 @@ var TaskRouter = Backbone.Router.extend({
         this.collection.reset(searched);
         this.render();
       },
+
+      completedThisWeek: function(){
+        var withinThisWeek = _.filter(this.collection.models, function(task){
+          if(task.get('completed_at') == "Not completed.") return false;
+          var taskDate = new Date(task.get('completed_at'));
+          var now = new Date();
+          if (now.getTime() - taskDate.getTime() < (7*1000*60*60*24)) return true;
+          return false;
+        });
+        return withinThisWeek.length;
+      },
+
+
 
       getUniques: function(attribute){
         return _.uniq(this.collection.pluck(attribute), false, function (attribute) {

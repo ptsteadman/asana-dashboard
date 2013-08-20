@@ -109,6 +109,7 @@
     <script id="task-template" type="text/template">
       <div class="task-header">
         <a target="_blank" class="asana-link" href="https://app.asana.com/0/<%= href %>"><%= name %></a>
+        <p><%= notes %></p>
       </div>
       <div class="task-status"> 
         <% if(assignee != 'Not assigned.'){ %>

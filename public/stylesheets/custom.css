@@ -29,6 +29,7 @@ nav form {
 }
 
 #search-form {
+    margin-left: 50px;
     margin-top: 6px;
 }
 
@@ -76,8 +77,7 @@ nav form {
 }
 
 .task p {
-    line-height: 10px;
-    font-style: italic;
+    line-height: 16px;
 }
 
 .task h5 {
@@ -98,6 +98,7 @@ nav form {
 
 #task-filter-form {
     opacity: .9;
+    width: 240px;
 }
 
 #task-view{
@@ -145,11 +146,11 @@ nav form {
 }
 
 .affix {
-    position: static;
+   /* position: static;*/
 }
 
 #main-content{
-    margin-left: 15px;
+    padding-left: 60px;
 }
 
 .arrow {
