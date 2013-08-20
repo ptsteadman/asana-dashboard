@@ -548,6 +548,10 @@ var TaskRouter = Backbone.Router.extend({
             self.taskFilterForm = new TaskFilterForm();
             self.searchForm = new SearchForm();
             Backbone.trigger('loaded');
+            Backbone.on('loaded', function(){
+              console.log('loaded tasks')
+              Backbone.trigger('loaded-both')
+            });
             $("#number-of-results").text(self.collection.models.length);
           },
           error: function(error){
@@ -728,12 +732,12 @@ var TaskRouter = Backbone.Router.extend({
         this.collection = new TagList();
         this.collection.fetch({
           success: function(response, xhr){
-            self.trigger('loaded');
             self.tagFilterForm = new TagFilterForm();
-            self.tagNameArray = [];  // for use in typeahead
-            self.collection.models.forEach(function(tag, index){
-              self.tagNameArray.push(tag.get('name'));
-            })
+            Backbone.trigger('loaded');
+            Backbone.on('loaded', function(){
+              console.log('loaded tags')
+              Backbone.trigger('loaded-both')
+            });
           }
         });
       },
@@ -763,8 +767,7 @@ var TaskRouter = Backbone.Router.extend({
   var home = new Home();
   $("#main-content").html('');
   var taskRouter = new TaskRouter();
-  // Fix this: hack to prevent router from starting until loaded
-  Backbone.on('loaded', function(){
+  Backbone.on('loaded-both', function(){
       Backbone.history.start();
   })
 
