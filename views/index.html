@@ -54,6 +54,17 @@
         <div class="col-2">
           <form id="task-filter-form" class="form-horizontal affix">
               <div class="control-group">
+                <label class="control-label" for="workspace-filter">Filter By Workspaces</label>
+                <div class="controls" id="workspace-filter">
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="header-filter">Filter By Header</label>
+                <div class="controls" id="header-filter">
+                  <input id='header-filter' class='form-control'> </input>
+                </div>
+              </div>
+              <div class="control-group">
                   <label class="control-label" for="completed-filter">Filter By Completed</label>
                   <div class="controls">
                     <select id="completed-filter" class="form-control">
@@ -64,7 +75,7 @@
                   </div>
                 </div>
                 <div class="control-group">
-                  <label class="control-label" for="completed-filter">Filter By Assigned</label>
+                  <label class="control-label" for="assigned-filter">Filter By Assigned</label>
                   <div class="controls">
                     <select id="assigned-filter" class="form-control">
                       <option>Show All</option>
@@ -73,17 +84,16 @@
                     </select>
                   </div>
                 </div>
-                <div class="control-group">
-                  <label class="control-label" for="completed-filter">Filter By Workspaces</label>
-                  <div class="controls" id="workspace-filter">
-                  
-                  </div>
-                </div>
               </form>
               <form id="tag-filter-form" class="form-horizontal affix">
                 <h4>Commonly Used Tags</h4>
                 <!--These are hardcoded for simplicity's sake-->
-                
+                <a href="#tags/legal"><strong>Legal</strong></a><br />
+                <a href="#tags/High Priority"><strong>High Priority</strong></a><br />
+                <a href="#tags/this release"><strong>This Release</strong></a><br />
+                <a href="#tags/NYOP"><strong>NYOP</strong></a><br />
+                <a href="#tags/Feature"><strong>Features</strong></a><br />
+                <a href="#tags/Freebies"><strong>Freebies</strong></a><br />
               </form>
            
         </div><!-- COL -->
@@ -154,7 +164,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/underscore.js"></script>
     <script src="js/backbone.js"></script>
-    <script src="js/string_score.js"></script>
+    <script src="js/typeahead.min.js"></script>
     <script src="/app.js"></script>
 
 

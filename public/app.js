@@ -7,21 +7,27 @@ var TaskRouter = Backbone.Router.extend({
       routes: {
           "":"home",
           "search/": "home",
+          "search": "home",
           "search/:id" : "home",
           "tags/:id":"tags",
-          "tags":"tags"
+          "tags/":"tags",
+          "tags": "tags"
       },
 
       home: function(id){
           Presenter.showViews([taskListView, taskListView.searchForm, taskListView.taskFilterForm]);
           $("#search-form input").val(id);
           $("#search-form button").html("Search Tasks <span class='caret'></span>")
+          taskListView.searchForm.searchHandler();
       },
 
       tags: function(id){
           Presenter.showViews([tagListView, taskListView.searchForm, tagListView.tagFilterForm]);
           $("#search-form input").val(id);
           $("#search-form button").html("Search Tags <span class='caret'></span>")
+          taskListView.searchForm.searchHandler();
+
+
       }
   });
 
@@ -103,7 +109,7 @@ var TaskRouter = Backbone.Router.extend({
     }
   }
 
-  // CONTROL FORMS (need to figure out how to create and destroy)
+  // CONTROL FORMS
 
   var TagFilterForm = Backbone.View.extend({
     el: "#tag-filter-form",
@@ -128,12 +134,16 @@ var TaskRouter = Backbone.Router.extend({
 
     initialize: function(){
       $("#workspace-filter").append(this.createSelect());
+      this.createHeaderTypeahead();
       $("#workspace-filter select").attr("size",$("#workspace-filter select option").length);
       this.$el.hide();
     },
 
     events: {
       "change select": "selectHandler",
+      "keyup input": "selectHandler",
+      "change span": "selectHandler",
+      "click": "clickHandler"
     },
 
     createSelect: function () {
@@ -146,6 +156,19 @@ var TaskRouter = Backbone.Router.extend({
         }).appendTo(select);
       });
       return select;
+    },
+
+    createHeaderTypeahead: function(){
+      var headerArray = taskListView.getUniques('priority_header');
+      $("input#header-filter").typeahead([{
+        name: 'priority_headers',
+        local: headerArray
+      }]);
+  
+    },
+
+    clickHandler: function(){
+      Backbone.trigger('selectChanged', event);
     },
 
     selectHandler: function(event){
@@ -166,13 +189,13 @@ var TaskRouter = Backbone.Router.extend({
     el: "#search-form",
 
     events: {
-      "keyup input": "searchHandler"
+      "keyup input": "searchHandler",
+      "change input": "searchHandler"
     },
 
     initialize: function(){
       this.$el.hide();
       var self = this;
-      setTimeout(function(){self.searchHandler()},0);
     },
 
     searchHandler: function(event){
@@ -315,7 +338,10 @@ var TaskRouter = Backbone.Router.extend({
               .enter().append("g");
 
             g.on('click',function(d){
-                  window.open(d.url)
+                  console.log(d.name)
+                  $("input#header-filter").val(d.name);
+                  Backbone.trigger('selectChanged', event);
+
             })
 
             g.filter(function(d) { return d.children; })
@@ -477,7 +503,7 @@ var TaskRouter = Backbone.Router.extend({
         split = _.map(split, function(word){
           return new RegExp(word, "gi")
         })
-        var searched = _.filter(this.collection.filtered.models, function(task){
+        var searched = _.filter(this.collection.filtered ? this.collection.filtered.models : this.collection.models, function(task){
           for(var i = 0; i < split.length; i++){
             if(split[i].test(task.get('assignee'))){
               return true;
@@ -502,6 +528,7 @@ var TaskRouter = Backbone.Router.extend({
         this.workspaceFilters = $("select#workspace-filter").val() ? $("select#workspace-filter").val() : '' ;
         this.assignedFilter = $("select#assigned-filter").val() ? $("select#assigned-filter").val() : '';
         this.completedFilter = $("select#completed-filter").val() ? $("select#completed-filter").val() : '';
+        this.headerFilter = $("input#header-filter").val() ? $("input#header-filter").val() : '';
         this.workspaceAll = this.workspaceFilters ? this.workspaceFilters[0] : '';
         var self = this;
         var filtered = _.filter(this.collection.original.models, function(task){
@@ -515,6 +542,14 @@ var TaskRouter = Backbone.Router.extend({
             }
             if(!bool) return false;
           }
+
+          // HEADERS
+          if(self.headerFilter != ''){
+            if (task.get("priority_header").toLowerCase() != self.headerFilter.toLowerCase()){
+              return false;
+            } 
+          }
+
           // COMPLETED
           if ( self.completedFilter == "Completed Tasks"){
             if(task.get('completed_at') == "Not completed.") return false;
@@ -767,6 +802,7 @@ var TaskRouter = Backbone.Router.extend({
   var home = new Home();
   $("#main-content").html('');
   var taskRouter = new TaskRouter();
+  // Fix this: hack to prevent router from starting until loaded
   Backbone.on('loaded-both', function(){
       Backbone.history.start();
   })
