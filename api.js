@@ -15,7 +15,7 @@ new cronJob('0 0 * * * *', function(){
 // API key of asana-dashboard@priceline.com
 var ghost = new AsanaProvider('localhost', 27017);
 var client = asana.createClient({
-		apiKey: '23WBqq2D.ZGmDolbvXWotOFTX1jJG7w8'
+		apiKey: 'YOUR-API-KEY'
 });
 
 //CREATE
